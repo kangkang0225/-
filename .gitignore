@@ -11,6 +11,10 @@ experiment_summary*
 local_cache/*
 requirements-dspy.txt
 venv/
+.venv/
+.setup-cache/
+.setup-tmp/
+models/
 *.log
 .env
 .env*

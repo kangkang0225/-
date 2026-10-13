@@ -3,7 +3,7 @@ import os
 import json
 from datetime import datetime
 import numpy as np
-from openai import OpenAI
+from utils.llm.embeddings import get_embedding_encoder, validate_saved_embeddings
 import faiss
 import dotenv
 
@@ -18,18 +18,14 @@ class QuestionBankVectorDB(QuestionBankBase):
     
     def __init__(self, embedding_dimension: int = 1536):
         super().__init__()
-        self.client = OpenAI()
-        self.embedding_dimension = embedding_dimension
-        self.index = faiss.IndexFlatL2(embedding_dimension)
+        self.encoder = get_embedding_encoder(embedding_dimension)
+        self.embedding_dimension = self.encoder.dimension
+        self.index = faiss.IndexFlatL2(self.embedding_dimension)
         self.embeddings: Dict[str, np.ndarray] = {}
         
     def _get_embedding(self, text: str) -> np.ndarray:
-        """Generate embedding for the given text using OpenAI's API."""
-        response = self.client.embeddings.create(
-            input=text,
-            model="text-embedding-3-small"
-        )
-        return np.array(response.data[0].embedding, dtype=np.float32)
+        """Generate an embedding using the configured provider."""
+        return self.encoder.encode(text)
 
     def add_question(
         self,
@@ -91,6 +87,7 @@ class QuestionBankVectorDB(QuestionBankBase):
             path: Path to save embeddings (either user_id or session path)
         """
         embedding_data = {
+            'embedding_model': self.encoder.fingerprint,
             'embeddings': [
                 {'id': question_id, 'embedding': embedding.tolist()}
                 for question_id, embedding in self.embeddings.items()
@@ -111,6 +108,7 @@ class QuestionBankVectorDB(QuestionBankBase):
         try:
             with open(embedding_filepath, 'r') as f:
                 embedding_data = json.load(f)
+            validate_saved_embeddings(embedding_data, self.encoder)
                 
             # Create embedding lookup dictionary
             self.embeddings = {
@@ -125,4 +123,4 @@ class QuestionBankVectorDB(QuestionBankBase):
                     self.index.add(embedding.reshape(1, -1))
                     
         except FileNotFoundError:
-            pass  # No embeddings file exists yet 
+            pass  # No embeddings file exists yet

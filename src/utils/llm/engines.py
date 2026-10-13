@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+import os
 from langchain_together import ChatTogether
 from langchain_openai import ChatOpenAI
 from langchain_google_vertexai import VertexAI
@@ -41,6 +42,23 @@ def get_engine(model_name, **kwargs):
     Returns:
         LangChain chat model instance or custom engine configured with the specified parameters
     """
+    # Route all chat calls, including legacy hard-coded helper models, through
+    # the configured MiniMax endpoint. Embedding clients remain independent.
+    if os.getenv("LLM_PROVIDER", "").lower() == "minimax":
+        kwargs["temperature"] = float(os.getenv("LLM_TEMPERATURE", "1.0"))
+        max_output_tokens = kwargs.pop("max_output_tokens", None)
+        max_tokens_to_sample = kwargs.pop("max_tokens_to_sample", None)
+        max_tokens = kwargs.pop("max_tokens", None)
+        token_limit = max_output_tokens or max_tokens or max_tokens_to_sample or 4096
+        return ChatOpenAI(
+            model_name=os.getenv("MODEL_NAME", "MiniMax-M2.7"),
+            api_key=os.getenv("MINIMAX_API_KEY"),
+            base_url=os.getenv("MINIMAX_BASE_URL", "https://api.minimax.cn/v1"),
+            max_tokens=token_limit,
+            extra_body={"reasoning_split": True},
+            **kwargs,
+        )
+
     # Set default temperature if not provided
     if "temperature" not in kwargs:
         kwargs["temperature"] = 0.0

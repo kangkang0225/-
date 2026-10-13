@@ -1,5 +1,13 @@
 # StorySage
 
+## 本地试用配置
+
+此版本基于 [ShayanTalaei/StorySage](https://github.com/ShayanTalaei/StorySage)，保留原版访谈与写作流程，增加 MiniMax 聊天接口、本地 CPU 向量模型和 Windows 启动入口。
+
+安装与配置见 [本机使用说明](README_LOCAL.md)。API 密钥、模型权重、运行环境、日志和个人访谈数据均不上传到仓库；模型可用下载脚本重新获取。
+
+以下为原项目说明。
+
 > **StorySage: Conversational Autobiography Writing Powered by a Multi-Agent Framework**  
 > Shayan Talaei, Meijin Li, Kanu Grover, James Kent Hippler, Diyi Yang, Amin Saberi  
 > UIST, 2025  
