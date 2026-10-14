@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>旅行片刻 · 照片访谈</title><link rel="stylesheet" href="/assets/style.css"></head>
+<body>
+<aside class="sidebar"><a class="brand" href="/">旅行<span>片刻</span><small>PHOTO → MEMORY → STORY</small></a>
+<button class="new-trip" id="newTrip">＋ 开始一段新回忆</button>
+<div class="side-label">你的旅行</div><nav id="sessions" aria-label="已保存的旅行"></nav>
+<div class="sidebar-foot"><span class="dot"></span> 本机保存，随时继续<br><small>照片是入口，你的讲述才是故事。</small></div></aside>
+<main>
+<header><div><span class="eyebrow">一张照片，一段自己的故事</span><h1 id="pageTitle">把旅行，再慢慢讲一遍。</h1></div>
+<button class="quiet" id="settingsBtn">访谈设置</button></header>
+<div class="notice hidden" id="notice" role="alert"></div>
+<label class="mobile-history" for="mobileSessions">已保存的旅行 <select id="mobileSessions"><option value="">开始新回忆</option></select></label>
+<section id="welcome" class="welcome">
+<div class="welcome-copy"><span class="chapter">01 / 从照片开始</span><h2>从一张照片开始。<br>找回<span>想留下的片刻。</span></h2>
+<p>选几张旅行照片，聊聊画面之外的经历。<br>故事会在讲述中慢慢成形，你可以选择，也可以亲手改写。</p>
+<p class="data-note">照片与讲述会交给 MiniMax 辅助理解和写作，原图与记录保存在本机。</p>
+<label for="tripTitle">给这段回忆一个名字 <small>可留空</small></label><input id="tripTitle" maxlength="80" placeholder="例如：在沙丘上待到天黑">
+<label class="upload" id="dropZone" for="photos"><span class="upload-icon">↗</span><strong>选取照片，或者拖到这里</strong><small>JPG / PNG / WEBP · 最多 20 张 · 每张 10 MB</small><input id="photos" type="file" multiple accept="image/jpeg,image/png,image/webp"></label>
+<div id="previews" class="previews"></div><button class="primary" id="begin">开始聊聊 <span>→</span></button></div>
+<div class="welcome-art" aria-hidden="true"><div class="sun"></div><div class="hills one"></div><div class="hills two"></div><div class="paper-note">那一刻，<br>你还记得吗？<small>YOUR STORY, IN YOUR WORDS.</small></div></div>
+</section>
+<section id="workspace" class="hidden">
+<div class="workspace-top"><div class="status" id="status" aria-live="polite"></div><div class="actions"><button class="quiet" id="export">导出记录</button><button class="quiet" id="resume">恢复 / 重试</button><button class="quiet" id="finish">结束访谈</button><button class="stop" id="stop">立即停止</button></div></div>
+<div id="photoStrip" class="photo-strip" aria-label="旅行照片"></div>
+<div class="conversation-grid"><section class="chat-panel"><div class="panel-top"><span class="chapter">02 / 讲述</span><small>可以跳过，也不必把每张照片都讲完。</small></div>
+<div id="messages" class="messages" aria-live="polite"></div><div id="working" class="working hidden"><span></span><span></span><span></span><small>正在接续你的讲述…</small></div>
+<form id="sendForm" class="composer"><textarea id="answer" rows="2" placeholder="想到什么，就从哪里说起。" aria-label="你的讲述"></textarea><button id="send" type="submit" aria-label="发送讲述">↑</button></form></section>
+<aside class="memory-panel"><span class="chapter">故事正在成形</span><h3>把你说过的，<br>好好留下。</h3><p id="memoryHint">聊到足够的经历时，会出现三种表达。它们讲同一件事，语气由你来选。</p><div class="memory-count"><strong id="memoryCount">0</strong><span>段记忆</span></div><div id="memoryTopics"></div><div id="backgroundNote" class="background-note"></div></aside></div>
+<section class="fragments-section"><div class="section-heading"><div><span class="chapter">03 / 选择表达</span><h2>同一段经历，三种说法。</h2></div><p>选一版，或直接在文字里修改。<br>修改后的内容会保存到这次回忆中。</p></div><div id="fragments"></div></section>
+<section class="article-section"><div class="section-heading"><div><span class="chapter">04 / 成为游记</span><h2>把留下的片刻，连成一篇。</h2></div><button class="primary" id="generate">生成最终游记 →</button></div><p id="articleHint">结束访谈后，可以查看片段，再生成游记。</p><article id="article" class="hidden"></article><button id="copyArticle" class="quiet hidden">复制游记</button></section>
+</section>
+<footer>旅行片刻 <span>—</span> 你的回忆，你的表达。</footer>
+</main>
+<dialog id="settingsDialog"><form id="settingsForm"><div class="dialog-head"><div><span class="chapter">实验与恢复</span><h2>访谈设置</h2></div><button type="button" id="closeSettings" class="quiet">关闭</button></div>
+<p>这些值用于试测，可以随时调整。不会要求你在倒计时内回答。</p><div id="settingsFields" class="settings-fields"></div><button class="primary" type="submit">保存设置</button></form></dialog>
+<script src="/assets/app.js" defer></script>
+</body></html>

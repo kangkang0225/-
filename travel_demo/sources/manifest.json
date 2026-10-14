@@ -1,0 +1,51 @@
+[
+  {
+    "file": "storysage_interviewer.txt",
+    "origin": "https://github.com/ShayanTalaei/StorySage",
+    "locator": "src/agents/interviewer/prompts.py: CONTEXT, INSTRUCTIONS",
+    "kind": "author_prompt",
+    "sha256": "dfb45cf1588aee87e67f48bd77b4fbfa8a0c1696f0619a27e8aaa4fce8ebb728"
+  },
+  {
+    "file": "storysage_scribe.txt",
+    "origin": "https://github.com/ShayanTalaei/StorySage",
+    "locator": "src/agents/session_scribe/prompts.py: UPDATE_MEMORY_QUESTION_BANK_INSTRUCTIONS, CONSIDER_AND_PROPOSE_FOLLOWUPS_INSTRUCTIONS",
+    "kind": "author_prompt",
+    "sha256": "750c17e0dc7175e89f49900e3e6a25424abd40c964d1eef14884433dcda9c44f"
+  },
+  {
+    "file": "storysage_writer.txt",
+    "origin": "https://github.com/ShayanTalaei/StorySage",
+    "locator": "src/agents/biography_team/section_writer/prompts.py: INSTRUCTIONS",
+    "kind": "author_prompt",
+    "sha256": "9bb9006e4ec8d912099622240716510062b8a0eba8caf829b680d2c81bceebdd"
+  },
+  {
+    "file": "guidellm_B_D.txt",
+    "origin": "https://aclanthology.org/2025.naacl-long.287.pdf",
+    "locator": "Appendices B–D; local PDF text extraction",
+    "kind": "author_prompt",
+    "sha256": "200fd153fabead39698a7d83c60f6ed24e181372724fa9e292f23a63aea50c06"
+  },
+  {
+    "file": "project_heartfelt_visit.md",
+    "origin": "C:\\Users\\23345\\SCU\\研一下\\rfid游记\\backend\\backend-rfid\\src\\main\\resources\\skills\\travelog-writer\\references\\heartfelt-visit.md",
+    "locator": "Existing project writing rules, not a paper prompt",
+    "kind": "project_rules",
+    "sha256": "aa5794ed21f7474ef04bb5a44896a20e598331123c89c0e3469fe3060fa556ab"
+  },
+  {
+    "file": "micro_narratives_appendix_A.txt",
+    "origin": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12265993/supplementaryFiles",
+    "locator": "Appendix A: exact extraction, creation and adaptation prompts",
+    "kind": "author_prompt",
+    "sha256": "31158fb33799fbfa570ca8ea0a2df30f0fb31be9962509f20246f1217b0605bc"
+  },
+  {
+    "file": "micro_narratives_appendix_A.pdf",
+    "origin": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12265993/supplementaryFiles",
+    "locator": "NIHMS2083225-supplement-Appendix_A_includes_all_the_gen-AI_prompts_used_in_the_proof-of-concept_system_.pdf",
+    "kind": "primary_supplement",
+    "sha256": "b277f84ea705fcd48853db9322664fdd607bfe579dc7a2e0f0965b05e48c74c2"
+  }
+]

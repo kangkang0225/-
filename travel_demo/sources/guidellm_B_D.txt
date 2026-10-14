@@ -1,0 +1,147 @@
+B Memory Graph Extrapolation
+In MGE, the event extraction and memory extrapolation are both LLM-driven, i.e., we leverage additional
+LLMs for information extraction and relationship discovery. For event extraction, we collect conversation
+history and ask LLMs to extract any events described in the history. In the process of memory extrapolation,
+we offer LLMs a predetermined list of events and prompt the LLMs to recognize and suggest any
+other queries that may be associated with these existing events. This methodology allows for a wider
+exploration of pertinent topics and concepts, thereby enhancing the overall cognitive network of the
+model. Additionally, we also supply a series of demonstrations, assisting the LLMs in understanding how
+they can effectively detect and propose potential connections. This approach not only strengthens the
+memory extrapolation ability of the LLMs but also constructs a more comprehensive spectrum of related
+relationships, thereby bolstering their cognitive accuracy.
+Extract Events from Conversation Prompt
+You are given a conversation between a counselor and a user:
+====== Conversation Begin ======
+{conversation}
+====== Conversation End ======
+Read the conversation carefully and list all the events/moments/stories/experiences alone or with
+others mentioned by the patient in detail and the date these events happened. Please list as many as
+possible. Your output should be in the following format:
+1. <date>#<topic>#<people-involved>#<description in detail>
+2. <date>#<topic>#<people-involved>#<description in detail>
+...
+e.g.,
+1. 1980 early#Birthday Party#Michelle, Adolf, neighbors#<descriptions of this party in detail>
+These events should be ranked in chronological order.
+Explore Prompt
+You are given a list of memory nodes from a user’s life, which include events and details about
+those events. Your task is to reactivate the user’s memory by generating some questions to ask the
+user, Your generated questions should potentially fulfill the memory nodes. Each memory node
+contains a Date, Topic, Involved People, and a Description of the event. Here are the memory
+nodes:
+====== Memory Node Begin ======
+{memory_node_info}
+====== Memory Node End ======
+Here are some examples of how you can frame your questions:
+If you notice there are no events recorded during a certain period, like youth or old age, you could
+ask: "I see there’s not much about your youth/old age. What happened during that time?"
+If a certain person appears multiple times, you might ask: "I noticed that <name> comes up often.
+Why is <name> important to you?"
+If someone appears in a significant event, you could ask: "<name> seems to play a key role in this
+event. Is there more to the story with <name>?"
+Similarly, you should discover other situations and frame questions from the existing memory
+nodes. Remember your task is to make the user talk more about their memory and fulfill the
+memory nodes. Thus, you should explore all the possible and reasonable questions.
+Your output should be in the following format:
+1. Question: <generated question>
+2. Question: <generated question>
+
+ -- -- ---
+ -- -- ---
+Session i
+ -- -- ---
+ -- -- ---
+ -- -- ---
+ -- -- ---
+Session i+1
+ -- -- ---
+ -- -- ---
+Summary of
+Session i
+A doctor and a patienttalked today and had thefollowing conversation: 
+Summarize theinteractions. Include keydetails about bothspeakers. 
+SummarizationInstruction
+Session content
+Summary of
+Session i+1
+A doctor and apatient talked today andhad the followingconversation: 
+In their previous session,
+Summarize theinteractions...
+Session content
+SummarizationInstruction
+Previous summary
+Figure 6: The pipeline for iterative summarization of conversations
+...
+e.g.,
+1. Question: I noticed you didn’t talk much about your youth, what happened during this period?
+C Conversation Summarization
+The conversation summarization pipeline is presented in Figure 6.
+Conversation Summary Prompt
+A doctor and a patient talked today and had the following conversation:
+====== Conversation Begin ======
+[Insert Conversation Here]
+====== Conversation End ======
+Summarize the interactions between the doctor and the patient so far. Include key details about
+both speakers. Output your summary only:
+D Empathetic Engagement
+In this section, we provide additional details on the role of large language models (LLMs) in enhancing
+empathetic engagement in conversational agents. We discuss three mental health therapy strategies, emo-
+tional detection and intensity estimation, and how to provide emotional support using emotion detection
+and intensity estimation. These strategies aim to improve the agent’s ability to engage empathetically with
+users and provide personalized support.
+D.1 Mental Health Therapy Strategy
+Reflective Listening Reflective listening is a therapeutic technique that involves paraphrasing and
+repeating the client’s statements to demonstrate understanding and empathy. This technique helps clients
+
+feel heard and validated, fostering a supportive therapeutic environment (Rautalinko et al., 2007).
+Cognitive-Behavior Therapy (CBT) CBT is a goal-oriented psychotherapy that focuses on identifying
+and changing negative thought patterns and behaviors. This approach helps clients develop coping
+strategies and improve emotional regulation (Beck, 2020).
+Psychodynamic Therapy Psychodynamic therapy explores unconscious thoughts and emotions to
+understand how past experiences influence present behavior. By examining unresolved conflicts and
+defense mechanisms, clients can gain insight into their emotions and relationships (Leichsenring and
+Leibing, 2003).
+We integrate these therapy strategies into our mental health agent to provide personalized and effective
+support to users. By combining reflective listening, CBT, and psychodynamic therapy, the agent can
+address a wide range of emotional and psychological needs. The following prompts illustrate how these
+strategies can be applied in a conversational setting.
+Mental Health Therapy Strategy
+Your objective is to engage with users empathetically by integrating Reflective Listening, Cognitive-
+Behavior Therapy, and Psychodynamic Therapy techniques. Here’s how you should approach
+interactions:
+Reflective Listening:
+Listen Actively: Understand the underlying messages in the user’s words, focusing on emotional
+tones and context.
+Reflect Content and Emotion: Summarize and rephrase key points to confirm understanding, and
+identify and validate the emotions expressed. Use phrases like, ’It sounds like you feel...’ or ’What
+I’m hearing is...’
+Cognitive-Behavior Therapy (CBT): Identify and Challenge Cognitive Distortions: Help users
+recognize patterns in their thoughts that might be unhelpful or unrealistic. For example, if a user
+expresses an all-or-nothing view, you might say, ’It sounds like you’re viewing this situation in
+black and white. What are some shades of grey here?’
+D.2 Emotional Sensitivity
+We use Emollama-7b for open-set emotion detection and intensity estimation to enhance the agent’s
+emotional sensitivity. This model provides a comprehensive taxonomy of emotions and their intensity
+levels, enabling the agent to accurately identify and respond to users’ emotional states (Liu et al., 2024).
+Since the emotion detection is open-set, we provide a list of the top 10 emotions for both patients and
+therapists for taxonomy. The top 10 emotions for patients are sadness, pessimism, fear, disgust, anger,
+anticipation, joy, optimism, love, and trust. The top 10 emotions for therapists are optimism, anticipation,
+joy, sadness, trust, fear, disgust, pessimism, anger, and love.
+The following prompts demonstrate how the agent can leverage Emollama-7b to detect emotions and
+estimate their intensity in user interactions.
+Emotion Detection
+Task: Categorize the text’s emotional tone as either ’neutral or no emotion’ or identify the presence
+of one or more of the given emotions (anger, anticipation, disgust, fear, joy, love, optimism,
+pessimism, sadness, surprise, trust). Text: [sentence] This text contains emotions:
+Emotion Intensity Estimation
+Task: Assign a numerical value between 0 (least E) and 1 (most E) to represent the intensity of
+emotion E expressed in the text. Text: [sentence] Emotion: [emotion] Intensity Score:
+
+Once the agent identifies the user’s emotional state and intensity, it can tailor its responses to provide
+appropriate support and empathy. The following prompt guides the agent on how to comfort users
+experiencing negative emotions.
+Emotional Support using Emotion Detection and Intensity Estimation
+The patient has the emotion of [detected_emotions] with the intensity of [detected_emotions].
+Your task is to provide comfort to users who are feeling upset. When a user’s emotional state is
+identified as ’upset’ with any level of intensity, adjust your tone and content to offer empathy,
+support, and understanding.
